@@ -11,11 +11,26 @@ let wonderQueue = [];
 
 //Producers use this to create messages
 app.post('/messages', (req, res) => {
-  return res.send('POST HTTP method on messages resource');
+  console.log('messages post hit');
+
+  let messageID = Date.now();
+  wonderQueue.push({
+    messageID: messageID,
+    inUse: false,
+  });
+
+  res.status(201).json({
+    status: 'Success',
+    data: {
+      messageID: messageID,
+    },
+  });
 });
 
 //Consumers will use this to get messages not currently in use
 app.get('/messages', (req, res) => {
+  console.log('messages get hit');
+
   try {
     let arrayForThisConsumer = [];
     wonderQueue.forEach((x) => {
@@ -37,6 +52,20 @@ app.get('/messages', (req, res) => {
 });
 
 //Consumers will use this to update the messages that they have used
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+app.put('/messages/:messageID', (req, res) => {
+  console.log(req.params.messageID);
+  console.log(req.body);
+
+  wonderQueue.forEach((x, index) => {
+    if (x.messageID === messageID) {
+      wonderQueue.splice(index, 1);
+    }
+  });
+
+  res.status(200).json({
+    status: 'Success',
+    data: {
+      recipe: 'Big Mac',
+    },
+  });
 });
