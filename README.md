@@ -4,7 +4,7 @@
 
 ## API Reference
 
-### Messages
+### /API/v1/messages
 
 This is an object representing the messages currently in the WonderQ system. Messages can be created by producers and subsequently retreived by consumers
 
@@ -21,6 +21,7 @@ None
 ###### Returns
 
 Response code: 201
+
 A messageID confirming the message was added to the queue successfully
 
 ##### GET API/v1/messages
@@ -34,11 +35,12 @@ None
 ###### Returns
 
 Response code: 200
+
 A list of messageID's for the respective messages acquired by the consumer
 
-##### PUT API/v1/messages/:messageID
+##### DELETE API/v1/messages/:messageID
 
-Used by consumers to inform WonderQ that they have processed the message
+Used by consumers to inform WonderQ that they have processed the message and will delete from the queue
 
 ###### Parameters
 
@@ -47,6 +49,7 @@ messageID - mandatory
 ###### Returns
 
 Response code: 200 if successful, 404 if messageID not provided
+
 messageID of the specific message that was deleted from WonderQ
 
 ## What I would do if I had more time
@@ -84,6 +87,7 @@ Talk about timer and port
 
 Why I used a hashmap
 
-Things I know need to be improved:
+Things I know need to be improved when dealing with scale:
 Separation of layers: controller > service layer > data access layer
-Authentication
+role based authentication (write/read access, which queues, are you producer or consumer)
+ranges based on timestamps or limits on quantity on the responses on the gets
