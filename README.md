@@ -22,6 +22,8 @@ morgan for logs
 
 # Things to do still
 
+timeout on the consumer order
+
 dotenv to control how long before message no longer in queue
 
 implement morgan

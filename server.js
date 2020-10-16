@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
 //Welcome message
 app.get('/', (req, res) => {
@@ -11,6 +11,7 @@ let wonderQueue = [];
 
 //Producers use this to create messages
 app.post('/messages', (req, res) => {
+  console.log(wonderQueue)
   console.log('messages post hit');
 
   let messageID = Date.now();
@@ -29,43 +30,49 @@ app.post('/messages', (req, res) => {
 
 //Consumers will use this to get messages not currently in use
 app.get('/messages', (req, res) => {
+  console.log(wonderQueue)
   console.log('messages get hit');
 
-  try {
-    let arrayForThisConsumer = [];
-    wonderQueue.forEach((x) => {
-      if (x.inUse === false) {
-        arrayForThisConsumer.push(x);
-        x.inUse = true;
-      }
-    });
-    res.status(200).json({
-      status: 'success',
-      results: arrayForThisConsumer.length,
-      data: {
-        messages: arrayForThisConsumer,
-      },
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  wonderQueue.forEach((x) => {
+    if (x.inUse === false) {
+      x.inUse = true;
+    }
+  });
+  res.status(200).json({
+    status: 'success',
+    results: wonderQueue.length,
+    data: {
+      messages: wonderQueue,
+    },
+  });
+
 });
 
 //Consumers will use this to update the messages that they have used
 app.put('/messages/:messageID', (req, res) => {
-  console.log(req.params.messageID);
-  console.log(req.body);
+  let messageID = req.params.messageID
+  console.log("message put hit");
 
   wonderQueue.forEach((x, index) => {
-    if (x.messageID === messageID) {
+
+    // This should be strict on typing but converting it caused a bug I didn't have time to deal with
+    if (x.messageID == messageID) {
+      console.log('im here')
       wonderQueue.splice(index, 1);
     }
+
   });
 
-  res.status(200).json({
+  res.status(201).json({
     status: 'Success',
     data: {
-      recipe: 'Big Mac',
+      messageID: messageID,
     },
   });
 });
+
+
+app.listen(PORT, () => {
+  console.log(`server is up and listening on PORT: ${PORT}`);
+});
+
