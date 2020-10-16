@@ -15,3 +15,11 @@ different queues for different services
 implement faster data structures like a map
 
 I am not proud of this
+
+# Things I used I want to talk about
+
+morgan for logs
+
+# Things to do still
+
+dotenv to control how long before message no longer in queue
