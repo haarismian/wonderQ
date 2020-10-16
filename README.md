@@ -85,9 +85,10 @@ Intro: welcome to my presentation, I'm sure you have many of these to go through
 Walk through code from the top
 Talk about timer and port
 
-Why I used a hashmap
+Why I used a hashmap - retrieving and inserting is fast which is key for this case which is important
 
 Things I know need to be improved when dealing with scale:
-Separation of layers: controller > service layer > data access layer
-role based authentication (write/read access, which queues, are you producer or consumer)
-ranges based on timestamps or limits on quantity on the responses on the gets
+all of my handlers and routes are in my main server file
+Separation of layers: controller > service layer > data access layer - abstract wonderqueue into its own class, in production it would likely be in its own server or database because we want it to be permanent storage not volatile
+role based authentication (write/read access, which queues, are you producer or consumer) - auth0 - havent used it but I hear good things
+ranges based on timestamps or limits on quantity on the responses on the gets - implementing code

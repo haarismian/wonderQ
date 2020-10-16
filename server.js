@@ -18,15 +18,13 @@ app.get('/', (req, res) => {
 const wonderQueue = new Map();
 
 //Producers use this to create messages
-//Space complexity: O(1) - just creating the object
+//Space complexity: O(1)
 //Time complexity: O(1)
 app.post('/API/v1/messages', (req, res) => {
   // talk about how at scale this will not work because of 2 requests hitting same time
   const messageID = JSON.stringify(Date.now());
   wonderQueue.set(messageID, {
     inUse: false,
-    timeOfCreation: messageID,
-
     data: req.body.data,
   });
 
@@ -48,7 +46,6 @@ app.get('/API/v1/messages', (req, res) => {
   //creating a temp message queue to provide to consumers
   const results = [];
   const messageIDs = [];
-  const timeAccessed = Date.now();
 
   //Only messages not in use are available to the consumers
   wonderQueue.forEach((value, key) => {
@@ -101,7 +98,7 @@ app.delete('/API/v1/messages/:messageID', (req, res) => {
 });
 
 // updating the inUse property to false after the timer elapses (default 30 seconds)
-//Space complexity: O(n)
+//Space complexity: O(1)
 //Time complexity: O(n)
 makeAvailable = (messageIDs) => {
   messageIDs.forEach((messageID) => {
