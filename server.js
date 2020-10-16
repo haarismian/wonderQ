@@ -7,18 +7,15 @@ app.get('/', (req, res) => {
   res.send('Welcome to WonderQ  !');
 });
 
-let wonderQueue = [];
+let wonderQueue = new Map();
 
 //Producers use this to create messages
 app.post('/messages', (req, res) => {
-  console.log(wonderQueue)
+  console.log(wonderQueue);
   console.log('messages post hit');
 
-  let messageID = Date.now();
-  wonderQueue.push({
-    messageID: messageID,
-    inUse: false,
-  });
+  let messageID = JSON.stringify(Date.now());
+  wonderQueue.set(messageID, { inUse: false });
 
   res.status(201).json({
     status: 'Success',
@@ -29,39 +26,38 @@ app.post('/messages', (req, res) => {
 });
 
 //Consumers will use this to get messages not currently in use
+//Space complexity:
+//Time complexity:
 app.get('/messages', (req, res) => {
-  console.log(wonderQueue)
-  console.log('messages get hit');
+  // console.log(wonderQueue);
+  // console.log('messages get hit');
 
-  wonderQueue.forEach((x) => {
-    if (x.inUse === false) {
-      x.inUse = true;
+  let messageQueue = [];
+
+  wonderQueue.forEach((value, key) => {
+    if (value.inUse === false) {
+      value.inUse = true;
     }
+    messageQueue.push(key);
   });
+
   res.status(200).json({
     status: 'success',
-    results: wonderQueue.length,
+    results: messageQueue.length,
     data: {
-      messages: wonderQueue,
+      messageQueue: messageQueue,
     },
   });
-
 });
 
 //Consumers will use this to update the messages that they have used
 app.put('/messages/:messageID', (req, res) => {
-  let messageID = req.params.messageID
-  console.log("message put hit");
+  let messageID = req.params.messageID;
+  console.log('message put hit');
 
-  wonderQueue.forEach((x, index) => {
-
-    // This should be strict on typing but converting it caused a bug I didn't have time to deal with
-    if (x.messageID == messageID) {
-      console.log('im here')
-      wonderQueue.splice(index, 1);
-    }
-
-  });
+  if (wonderQueue.has(messageID)) {
+    wonderQueue.delete(messageID);
+  }
 
   res.status(201).json({
     status: 'Success',
@@ -71,8 +67,6 @@ app.put('/messages/:messageID', (req, res) => {
   });
 });
 
-
 app.listen(PORT, () => {
   console.log(`server is up and listening on PORT: ${PORT}`);
 });
-

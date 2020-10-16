@@ -16,6 +16,10 @@ implement faster data structures like a map
 
 I am not proud of this
 
+# Things I liked about the assignment
+
+clever way to see how I code plus my knowledge of DS and algorithms
+
 # Things I used I want to talk about
 
 morgan for logs
