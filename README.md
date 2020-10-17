@@ -1,5 +1,11 @@
 # wonderQ - a WONDERful message broker (pun 100% intended)
 
+## Video
+
+I assume you have to review many similar projects and get a bit tired reading code so I've made a video walkthrough, so please sit back, grab some popcorn, and let me read and rationalize my code for you. Think one way mirror pair programming!
+
+[![Youtube](http://img.youtube.com/vi/t0XN-dJftSU/0.jpg)](http://www.youtube.com/watch?v=t0XN-dJftSU 'Youtube')
+
 ## Introduction & business requirements
 
 WonderQ is a NodeJS message broker allowing producers to publish messages and consumers to subsequently retrieve these messages and consume them. The WonderQ module must:
