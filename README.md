@@ -4,6 +4,7 @@
 
 I assume you have to review many similar projects and get a bit tired reading code so I've made a video walkthrough, so please sit back, grab some popcorn, and let me read and rationalize my code for you. Think one way mirror pair programming!
 
+Click the picture below to be redirected to youtube!
 [![Youtube](http://img.youtube.com/vi/t0XN-dJftSU/0.jpg)](http://www.youtube.com/watch?v=t0XN-dJftSU 'Youtube')
 
 ## Introduction & business requirements
