@@ -16,7 +16,7 @@ Used by producers to create messages
 
 ###### Parameters
 
-None
+body must contain a JSON object with the "data" property
 
 ###### Returns
 
@@ -36,7 +36,9 @@ None
 
 Response code: 200
 
-A list of messageID's for the respective messages acquired by the consumer
+status: whether or not the get request was successful
+
+messageQueue: A list of data for the respective messages acquired by the consumer
 
 ##### DELETE API/v1/messages/:messageID
 
@@ -52,31 +54,27 @@ Response code: 200 if successful, 404 if messageID not provided
 
 messageID of the specific message that was deleted from WonderQ
 
-## What I would do if I had more time
+# On scaling for production
 
-I learned a producer should hit an exchange first then go to queue
+### code quality and manageability
 
-Implement features that make it so the consumer doesn't have to wait
+Currently all handlers and logic is in a single JS file, the project would definitely need to be reorganized and better structured to accomodate for larger teams. Additionally code quality is currently not ideal, we would likely want better data modelling for objects such as messages.
 
-organize it better with data models for messages and routes
+### Lack of logging and error handling
 
-implement async
+Currently this module expects happy cases and doesn't provide much in the way of error handling or logging. I would likely use much more extensive testing, covering a wider variety of edge cases, as well code coverage should increase as well. I have used morgan for logging in the past and have seen great success
 
-different queues for different services
+### Separation of layers
 
-morgan for logs
+Currently all service logic and "database" access happens in a single layer, these should be abstracted into a different controller, service, and data access layer. wonderQueue in particular would likely be its own server or database to consist of more permanent storage rather than its current volatile state.
 
-I am not proud of this
+### Security
 
-# Things I liked about the assignment
+The system in its present state is very insecure, in production I believe it is imperative to have role based authentication through a tool like auth0 to manage roles, read/write access, etc.
 
-clever way to see how I code plus my knowledge of DS and algorithms
+### Performance
 
-# Things to do still
-
-Write documentation for your API endpoints. Talk about their inputs/outputs, formats, methods, responses, etc
-
-• Discuss in writing (in your Github README): what steps would you need to take in order to scale this system to make it production ready for very high volume? What are potential issues in production that might arise and how would you go about implementing solutions? For each of the previous questions, which tools/technologies would you use and why? Please be detailed.
+The app in its current state would not be able to handle throughout in large magnitudes, for example the get request currently returns all messages, in a production environment we would likely want to implement ranges based on timestamps or limits on the quantity of messages returned based on the consumer's request depending on what it can handle. We would also likely want to implement differing queues for differing services.
 
 # Script for presentation
 
@@ -86,9 +84,3 @@ Walk through code from the top
 Talk about timer and port
 
 Why I used a hashmap - retrieving and inserting is fast which is key for this case which is important
-
-Things I know need to be improved when dealing with scale:
-all of my handlers and routes are in my main server file
-Separation of layers: controller > service layer > data access layer - abstract wonderqueue into its own class, in production it would likely be in its own server or database because we want it to be permanent storage not volatile
-role based authentication (write/read access, which queues, are you producer or consumer) - auth0 - havent used it but I hear good things
-ranges based on timestamps or limits on quantity on the responses on the gets - implementing code
