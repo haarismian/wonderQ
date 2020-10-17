@@ -8,6 +8,13 @@ Click the picture below to be redirected to youtube (approx. 12 minutes)!
 
 [![Youtube](http://img.youtube.com/vi/h-rUZpCJAy8/0.jpg)](https://youtu.be/h-rUZpCJAy8 'Youtube')
 
+## Installation guide
+1. Clone the repo
+2. Navigate to the repo
+3. run "npm install"
+4. run "node server.js"
+5. Use your favourite API navigation tool (Postman is my favourite, but I don't judge) to hit WonderQ!
+
 ## Introduction & business requirements
 
 WonderQ is a NodeJS message broker allowing producers to publish messages and consumers to subsequently retrieve these messages and consume them. The WonderQ module must:
