@@ -112,3 +112,5 @@ makeAvailable = (messageIDs) => {
 app.listen(PORT, () => {
   console.log(`server is up and listening on PORT: ${PORT}`);
 });
+
+module.exports = app;
