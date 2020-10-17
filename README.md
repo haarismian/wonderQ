@@ -71,7 +71,7 @@ messageID of the specific message that was deleted from WonderQ
 
 ### code quality and manageability
 
-Currently all handlers and logic is in a single JS file, the project would definitely need to be reorganized and better structured to accomodate for larger teams. Additionally code quality is currently not ideal, we would likely want better data modelling for objects such as messages. Another example problem is within the post request, the ID is based on the Date.now() function, if 2 requests hit at the same time, we would run into collission issues, better ID'ing is necessary.
+Currently all handlers and logic is in a single JS file, the project would definitely need to be reorganized and better structured to accomodate for larger teams. Additionally code quality is currently not ideal, we would likely want better data modelling for objects such as messages. Another example problem is within the post request, the ID is based on the Date.now() function, if 2 requests hit at the same time, we would run into collission issues, better ID'ing is necessary. Little things as well like having an appropriate gitignore for the .env file as well is important.
 
 ### Lack of logging and error handling
 
