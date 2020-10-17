@@ -27,12 +27,11 @@ app.post('/API/v1/messages', (req, res) => {
     inUse: false,
     data: req.body.data,
   });
+  console.log(wonderQueue);
 
   res.status(201).json({
     status: 'Created.',
-    data: {
-      messageID: messageID,
-    },
+    messageID: messageID,
   });
 });
 
@@ -40,10 +39,6 @@ app.post('/API/v1/messages', (req, res) => {
 //Space complexity: O(n)
 //Time complexity: O(n)
 app.get('/API/v1/messages', (req, res) => {
-  // console.log(wonderQueue);
-  // console.log('messages get hit');
-
-  //creating a temp message queue to provide to consumers
   const results = [];
   const messageIDs = [];
 
@@ -61,14 +56,11 @@ app.get('/API/v1/messages', (req, res) => {
     makeAvailable(messageIDs);
   }, messageTimeOut);
 
+  console.log(wonderQueue);
+
   res.status(200).json({
-    status: 'Successful',
-    //remove results counter because no need users can get it themselves
-    results: results.length,
-    //dont nest message queue within the data
-    data: {
-      messageQueue: results,
-    },
+    status: 'Successful.',
+    messageQueue: results,
   });
 });
 
@@ -83,22 +75,17 @@ app.delete('/API/v1/messages/:messageID', (req, res) => {
 
     res.status(200).json({
       status: 'Successful',
-      data: {
-        messageID: messageID,
-      },
+      messageID: messageID,
     });
   } else {
     res.status(404).json({
       status: 'Message ID not found',
-      data: {
-        messageID: messageID,
-      },
+      messageID: messageID,
     });
   }
 });
 
 // updating the inUse property to false after the timer elapses (default 30 seconds)
-//Space complexity: O(1)
 //Time complexity: O(n)
 makeAvailable = (messageIDs) => {
   messageIDs.forEach((messageID) => {
@@ -113,4 +100,8 @@ app.listen(PORT, () => {
   console.log(`server is up and listening on PORT: ${PORT}`);
 });
 
-module.exports = app;
+exports.app = app;
+//For testing purposes
+exports.clearQueue = () => {
+  wonderQueue.clear();
+};
