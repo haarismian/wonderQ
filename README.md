@@ -1,6 +1,14 @@
-# wonderQ
+# wonderQ - a WONDERful message broker (pun 100% intended)
 
-## Introduction & business problem
+## Introduction & business requirements
+
+WonderQ is a NodeJS message broker allowing producers to publish messages and consumers to subsequently retrieve these messages and consume them. The WonderQ module must:
+
+1. Allow producers to produce messages and receive a message ID in response as confirmation
+2. Allow consumers to retrieve all messages currently not in use
+3. Mark messages as in use if they have been retrieved by a consumer
+4. Allow consumers to notify the message broker that messages have been processed, and subsequently delete them
+5. Make messages not processed within a specified amount of time to be available for use once again
 
 ## API Reference
 
@@ -8,9 +16,7 @@
 
 This is an object representing the messages currently in the WonderQ system. Messages can be created by producers and subsequently retreived by consumers
 
-#### Create a message
-
-##### POST API/v1/messages
+##### POST API/v1/messages - Create a message
 
 Used by producers to create messages
 
@@ -24,7 +30,7 @@ Response code: 201
 
 A messageID confirming the message was added to the queue successfully
 
-##### GET API/v1/messages
+##### GET API/v1/messages - Retrieve messages
 
 Used by consumers to get the list of messages that are currently not in use by other consumers
 
@@ -40,7 +46,7 @@ status: whether or not the get request was successful
 
 messageQueue: A list of data for the respective messages acquired by the consumer
 
-##### DELETE API/v1/messages/:messageID
+##### DELETE API/v1/messages/:messageID - Delete messages
 
 Used by consumers to inform WonderQ that they have processed the message and will delete from the queue
 
@@ -58,7 +64,7 @@ messageID of the specific message that was deleted from WonderQ
 
 ### code quality and manageability
 
-Currently all handlers and logic is in a single JS file, the project would definitely need to be reorganized and better structured to accomodate for larger teams. Additionally code quality is currently not ideal, we would likely want better data modelling for objects such as messages.
+Currently all handlers and logic is in a single JS file, the project would definitely need to be reorganized and better structured to accomodate for larger teams. Additionally code quality is currently not ideal, we would likely want better data modelling for objects such as messages. Another example problem is within the post request, the ID is based on the Date.now() function, if 2 requests hit at the same time, we would run into collission issues, better ID'ing is necessary.
 
 ### Lack of logging and error handling
 
@@ -75,12 +81,3 @@ The system in its present state is very insecure, in production I believe it is 
 ### Performance
 
 The app in its current state would not be able to handle throughout in large magnitudes, for example the get request currently returns all messages, in a production environment we would likely want to implement ranges based on timestamps or limits on the quantity of messages returned based on the consumer's request depending on what it can handle. We would also likely want to implement differing queues for differing services.
-
-# Script for presentation
-
-Intro: welcome to my presentation, I'm sure you have many of these to go through so I thought it would be much more fun to let you sit back and relax and let me walk you through my code and thought process. First I'll walk you through what I did and my understanding of each business requirement, then I will walk through what I know this project, lacks nad finally get into the requirements around how I would try to get this to scale for high volume, issues in production.
-
-Walk through code from the top
-Talk about timer and port
-
-Why I used a hashmap - retrieving and inserting is fast which is key for this case which is important
