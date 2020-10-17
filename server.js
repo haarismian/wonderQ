@@ -24,7 +24,6 @@ app.post('/API/v1/messages', (req, res) => {
     inUse: false,
     data: req.body.data,
   });
-  console.log(wonderQueue);
 
   res.status(201).json({
     status: 'Created.',
@@ -51,8 +50,6 @@ app.get('/API/v1/messages', (req, res) => {
   setTimeout(() => {
     makeAvailable(messageIDs);
   }, messageTimeOut);
-
-  console.log(wonderQueue);
 
   res.status(200).json({
     status: 'Successful.',

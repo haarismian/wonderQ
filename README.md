@@ -75,7 +75,7 @@ Currently all handlers and logic is in a single JS file, the project would defin
 
 ### Lack of logging and error handling
 
-Currently this module expects happy cases and doesn't provide much in the way of error handling or logging. I would likely use much more extensive testing, covering a wider variety of edge cases, as well code coverage should increase as well. I have used morgan for logging in the past and have seen great success
+Currently this module expects happy cases and doesn't provide much in the way of error handling or logging. I would likely use much more robust testing, covering a wider variety of edge cases, as well code coverage should increase as well. I have used morgan for logging in the past and have seen great success
 
 ### Separation of layers
 
