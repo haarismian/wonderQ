@@ -96,3 +96,6 @@ The system in its present state is very insecure, in production I believe it is 
 ### Performance
 
 The app in its current state would not be able to handle throughout in large magnitudes, for example the get request currently returns all messages, in a production environment we would likely want to implement ranges based on timestamps or limits on the quantity of messages returned based on the consumer's request depending on what it can handle. We would also likely want to implement differing queues for differing services.
+
+# Reflections after the submission deadline (feel free to ignore)
+1. The API response status codes should have extracted into previously declared constants to avoid potential "fat finger" errors on the response codes
