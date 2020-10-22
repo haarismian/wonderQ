@@ -1,0 +1,61 @@
+Twitter
+
+users
+  UUID PK
+  user first name
+  Last name
+  Display name
+  Email
+  password
+  phone number
+  address
+  profile photo
+  friendslist FK
+  followers
+  followings
+
+tweets
+  tweetID
+  timestamp
+  content
+  userIDofCreator
+  likes
+  retweets
+  who this replies to FK tweetIDs
+  taggedUsers FK user.uuid // conceptually this would be a many to many
+
+
+Follows table
+From : Follows
+UUID : UUID
+Jesse : Haaris
+Jesse : Joe
+
+jesse tweet 1
+
+5 replies on it
+
+haaris tweet, replies to 1
+Joe tweet, replies to 1
+
+get
+endpoint: API/v9999999/tweets/:tweetID
+individual tweets
+feed
+
+POST
+creating a tweet
+API/v9999/tweets
+create new account
+API/v99/users
+
+PUT
+API/vwhatever/tweets/:tweetID
+updates to profile picture
+
+DELETE
+API/v999/tweets/:tweetID
+
+delete session token request. Tradeoff is that you won't be able to track session history, put might be useful in this case
+cookies are another great way to manage sign in session
+

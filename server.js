@@ -13,17 +13,21 @@ app.get('/', (req, res) => {
 });
 
 // Using a hashtable for its efficient searching, insertion, and deletion
+// This would be the first thing to go, would have to
 const wonderQueue = new Map();
 
 //Producers use this to create messages
 //Space complexity: O(1)
 //Time complexity: O(1)
 app.post('/API/v1/messages', (req, res) => {
+  // Could also use a string constructor for this date ID (String(Date.now()))
   const messageID = JSON.stringify(Date.now());
   wonderQueue.set(messageID, {
     inUse: false,
     data: req.body.data,
   });
+
+  // can wrap the whole thing in a try (line 22) catch (line 34), in the catch send a different payload. this works quick and easily, however as the project scales I would want to use express middleware that would process the errors and send appropriate responses to the client
 
   res.status(201).json({
     status: 'Created.',
@@ -38,6 +42,8 @@ app.get('/API/v1/messages', (req, res) => {
   const results = [];
   const messageIDs = [];
 
+  // I can use another queue as an "in use" queue which would speed it up significantly. Once the message times out then I could move it from the in use queue back to the not in use.
+  // The tradeoff made when using a hashmap is that we can't keep a certain order.
   wonderQueue.forEach((value, key) => {
     if (!value.inUse) {
       value.inUse = true;
