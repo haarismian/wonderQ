@@ -78,7 +78,7 @@ app.delete('/API/v1/messages/:messageID', (req, res) => {
   }
 });
 
-// updating the inUse property to false after the timer elapses (default 30 seconds)
+// updating the inUse property to false after the timer elapses (default 10 seconds)
 //Space complexity: n/a - no data created
 //Time complexity: O(n)
 makeAvailable = (messageIDs) => {
